@@ -2,7 +2,7 @@
 This terraform scripts aimed to provision AWS VPC.
 
 ## Architecture
-[png]
+![image](https://user-images.githubusercontent.com/111745208/219783744-6a8be600-47eb-4d09-8494-f211d6986921.png)
 
 ### Install 
 
