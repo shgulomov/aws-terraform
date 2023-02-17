@@ -1,31 +1,31 @@
 # create s3 bucket
 resource "aws_s3_bucket" "tfstate" {
-  bucket = "tfstate-cloud-s3"
-  acl    = "private"
+  bucket = var.bucket_name
+  acl    = var.acl
   versioning {
-    enabled = true
+    enabled = var.versioning
   }
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
+        sse_algorithm = var.sse_algorithm
       }
     }
   }
   tags = {
-    Name = "S3 Remote Terraform State Store"
+    Name = var.tags["s3_tag"]
   }
 }
 # create dynamodb table
 resource "aws_dynamodb_table" "tfstate_lock" {
-  name         = "cloud-terraform-lock"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "LockID"
+  name         = var.dynamodb_table
+  billing_mode = var.billing_mode
+  hash_key     = var.hash_key
   attribute {
-    name = "LockID"
-    type = "S"
+    name = var.hash_key
+    type = var.hash_key_type
   }
   tags = {
-    Name = "DynamoDB Terraform State Lock Table"
+    Name = var.tags["dynamodb_tag"]
   }
 }

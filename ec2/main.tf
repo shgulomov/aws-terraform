@@ -1,42 +1,38 @@
-module "vpc" {
-  source             = "../networking/"
-  vpc_cidr           = var.vpc_cidr
-  availability_zones = var.availability_zones
-  public_subnet      = var.public_subnet
-  private_subnet     = var.private_subnet
-}
 # create auto scaling group
 resource "aws_autoscaling_group" "asg" {
-  name             = "cloud_asg"
-  desired_capacity = 2
-  max_size         = 3
-  min_size         = 1
+  name             = var.auto_scaling_group_name
+  desired_capacity = var.desired_capacity
+  max_size         = var.max_size
+  min_size         = var.min_size
 
-  vpc_zone_identifier = module.vpc.cloud_vpc.private_subnet
+  vpc_zone_identifier = var.private_subnet
   launch_template {
-    id      =  aws_launch_template.launch_template.id
-    version = "$Latest"
+    id      = aws_launch_template.launch_template.id
+    version = var.launch_template_version
   }
 }
 # create security group
 resource "aws_security_group" "sg" {
-  name        = "cloud_sg"
-  description = "Security group for asg"
-  vpc_id      = module.vpc.cloud_vpc.vpc_id
+  name        = var.security_group_name
+  description = var.security_group_description
+  vpc_id      = var.vpc_id
+
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = var.inbound_port_from
+    to_port     = var.inbound_port_to
+    protocol    = var.inbound_protocol
+    cidr_blocks = var.inbound_cidr_blocks
   }
 }
 # create launch template
 resource "aws_launch_template" "launch_template" {
-  name                   = "cloud_launch_template"
-  image_id               = "ami-0dfcb1ef8550277af"
-  instance_type          = "t2.micro"
+  name                   = var.launch_template_name
+  image_id               = var.ami_id
+  instance_type          = var.instance_type
+  key_name               = var.key_name
+  user_data              = var.user_data
   vpc_security_group_ids = [aws_security_group.sg.id]
   tags = {
-    Name = "launch_template"
+    Name = var.tags["lt_name"]
   }
 }
