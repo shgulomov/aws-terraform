@@ -7,7 +7,7 @@ This terraform scripts aimed to provision AWS VPC.
 ### Install 
 
 ```shell
-terraform init
+terragrunt init
 terraform plan
 terraform apply
 ```
