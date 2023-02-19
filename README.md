@@ -27,7 +27,8 @@ terraform destroy -auto-approve
 
 ## Requirements
 
-No requirements.
+1. Terraform
+2. Terragrunt
 
 ## Providers
 
