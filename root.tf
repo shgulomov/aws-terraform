@@ -12,14 +12,16 @@ module "vpc" {
 module "ec2" {
   source                     = "./ec2/"
   vpc_id                     = module.vpc.cloud_vpc.vpc_id
+  private_subnet_ids         = module.vpc.cloud_vpc.private_subnet
+
   region                     = var.region
   vpc_cidr                   = var.vpc_cidr
-  private_subnet             = var.private_subnet
   auto_scaling_group_name    = var.auto_scaling_group_name
   desired_capacity           = var.desired_capacity
   max_size                   = var.max_size
   min_size                   = var.min_size
   launch_template_version    = var.launch_template_version
+  launch_configuration_name  = var.launch_configuration_name
   security_group_name        = var.security_group_name
   security_group_description = var.security_group_description
   inbound_port_from          = var.inbound_port_from
@@ -30,7 +32,6 @@ module "ec2" {
   ami_id                     = var.ami_id
   instance_type              = var.instance_type
   key_name                   = var.key_name
-  user_data                  = var.user_data
   tags                       = var.tags
 }
 

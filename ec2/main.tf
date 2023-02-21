@@ -5,7 +5,7 @@ resource "aws_autoscaling_group" "asg" {
   max_size         = var.max_size
   min_size         = var.min_size
 
-  vpc_zone_identifier = var.private_subnet
+  vpc_zone_identifier = var.private_subnet_ids
   launch_template {
     id      = aws_launch_template.launch_template.id
     version = var.launch_template_version
@@ -30,7 +30,6 @@ resource "aws_launch_template" "launch_template" {
   image_id               = var.ami_id
   instance_type          = var.instance_type
   key_name               = var.key_name
-  user_data              = var.user_data
   vpc_security_group_ids = [aws_security_group.sg.id]
   tags = {
     Name = var.tags["lt_name"]

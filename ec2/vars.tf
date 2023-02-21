@@ -10,7 +10,7 @@ variable "vpc_id" {
   type        = string
   description = "The VPC ID."
 }
-variable "private_subnet" {
+variable "private_subnet_ids" {
   type        = list(any)
   description = "The CIDR block for the private subnet."
 }
@@ -37,11 +37,6 @@ variable "instance_name" {
   type        = string
   description = "The name of the EC2 instance."
   default     = "terraform-ec2-instance"
-}
-variable "user_data" {
-  type        = string
-  description = "The user data to deploy."
-  default     = "echo 'Hello, World!' > index.html"
 }
 variable "security_group_name" {
   type        = string

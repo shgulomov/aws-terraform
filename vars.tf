@@ -1,22 +1,28 @@
 variable "region" {
   type        = string
   description = "The AWS region to deploy into."
+  default     = "us-east-1"
 }
 variable "vpc_cidr" {
   type        = string
   description = "The CIDR block for the VPC."
+  default = "10.0.0.0/16"
 }
 variable "public_subnet" {
   type        = list(any)
   description = "The CIDR block for the public subnet."
+  default = [ "10.0.1.0/24", "10.0.2.0/24"]
 }
 variable "private_subnet" {
   type        = list(any)
   description = "The CIDR block for the private subnet."
+  default = [ "10.0.3.0/24", "10.0.4.0/24"]
+  
 }
 variable "availability_zones" {
   type        = list(any)
   description = "The availability zones to deploy into."
+  default = ["us-east-1a", "us-east-1b"]
 }
 variable "enable_dns_hostnames" {
   type        = bool
@@ -92,11 +98,6 @@ variable "instance_name" {
   description = "The name of the EC2 instance."
   default     = "terraform-ec2-instance"
 }
-variable "user_data" {
-  type        = string
-  description = "The user data to deploy."
-  default     = "echo 'Hello, World!' > index.html"
-}
 variable "security_group_name" {
   type        = string
   description = "The name of the security group."
@@ -110,10 +111,12 @@ variable "security_group_description" {
 variable "auto_scaling_group_name" {
   type        = string
   description = "The name of the auto scaling group."
+  default = "terraform-ec2-asg"
 }
 variable "launch_configuration_name" {
   type        = string
   description = "The name of the launch configuration."
+  default = "terraform-ec2-lc"
 }
 variable "desired_capacity" {
   type        = number
